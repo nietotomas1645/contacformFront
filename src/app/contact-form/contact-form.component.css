@@ -292,12 +292,42 @@ h2 {
 .table-container {
     width: 100%;
     overflow-x: auto;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+/* Personaliza la barra de scroll */
+.table-container::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+
+/* Cambia el fondo del scrollbar */
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 8px;
+}
+
+/* Cambia el estilo del thumb (parte desplazable) */
+.table-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 8px;
+}
+
+/* Cambia el estilo del thumb cuando se pasa el cursor */
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Para navegadores que no soporten ::-webkit-scrollbar */
+.table-container {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
 }
 
 .styled-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 25px 0;
     font-size: 18px;
     text-align: left;
 }
