@@ -1,0 +1,136 @@
+<div class="gral-contact-container">
+  <div class="left-content">
+    <img src="assets/svg-login.png" alt="svg-login">
+  </div>
+  <div class="right-content">
+    <div class="form-tab">
+      <div class="left-tab-content">
+        <div>
+          <button class="button-tab" (click)="showContainer(0)">{{ translations['Start'] }}</button>
+        </div>
+        <div>
+          <button class="button-tab" (click)="showContainer(1)">{{ translations['Result'] }}</button>
+        </div>
+      </div>
+      <div class="right-tab-content">
+        <select id="language-select" (change)="onLanguageChange($event)">
+          <option *ngFor="let language of languages" [value]="language.code"
+            [selected]="language.code === selectedLanguage">
+            {{ language.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-container" *ngIf="activeTabs === 0">
+      <h2>{{ translations['FormContact'] }}</h2>
+      <form [formGroup]="contactForm" (ngSubmit)="openModal()">
+        <div class="form-field">
+          <div class="input-content">
+            <label for="email" class="label-inputs">{{ translations['Email'] }}</label>
+            <input id="email" type="email" formControlName="email" class="input-style" />
+          </div>
+          <div *ngIf="contactForm.get('email')?.hasError('required')" class="error">
+            {{ translations['EmailIsRequired'] }}
+          </div>
+          <div *ngIf="contactForm.get('email')?.hasError('email')" class="error">
+            {{ translations['MustBeValidEmail'] }}
+          </div>
+        </div>
+
+        <div class="form-field">
+          <div class="input-content">
+            <label class="label-inputs" for="firstName">{{ translations['FirstName'] }}</label>
+            <input id="firstName" type="text" formControlName="firstName" class="input-style" />
+          </div>
+          <div *ngIf="contactForm.get('firstName')?.hasError('required')" class="error">
+            {{ translations['FirstNameIsRequired'] }}
+          </div>
+        </div>
+
+        <div class="form-field">
+          <div class="input-content">
+            <label class="label-inputs" for="lastName">{{ translations['LastName'] }}</label>
+            <input id="lastName" type="text" formControlName="lastName" class="input-style" />
+          </div>
+
+          <div *ngIf="contactForm.get('lastName')?.hasError('required')" class="error">
+            {{ translations['LastNameIsRequired'] }}
+          </div>
+        </div>
+
+        <div class="form-field">
+          <div class="input-content">
+            <label class="label-inputs" for="comments">{{ translations['Comments'] }}</label>
+            <textarea id="comments" formControlName="comments" class="input-style"></textarea>
+          </div>
+          <div *ngIf="contactForm.get('comments')?.hasError('required')" class="error">
+            {{ translations['CommentsAreRequired'] }}
+          </div>
+        </div>
+
+        <div class="form-attachment">
+          <label class="label-inputs" for="file">Adjuntar archivo</label>
+          <div class="custom-file">
+            <label for="file" class="custom-label">
+              {{ labelText }}
+            </label>
+            <input id="file" type="file" (change)="onFileChange($event)" class="input-file" />
+            <span class="status-icon">
+              <i *ngIf="fileUploaded" class="check-icon">✔</i>
+              <i *ngIf="!fileUploaded" class="cross-icon">✖</i>
+            </span>
+          </div>
+        </div>
+        <div class="submit-container">
+          <button type="button" class="cancel-button">{{ translations['Cancel'] }}</button>
+          <button type="submit" [disabled]="!contactForm.valid" class="submit-button">{{ translations['Submit']
+            }}</button>
+        </div>
+
+      </form>
+    </div>
+    <div id="confirmationModal" class="modal" [ngClass]="{'show-modal': showModal}">
+      <div class="modal-content">
+        <span class="close-button" (click)="closeModal()">&times;</span>
+        <h2>¿Desea enviar el formulario?</h2>
+        <div class="buttons-modal">
+          <button (click)="closeModal()" class="modal-button-cancel">{{ translations['Cancel'] }}</button>
+          <button (click)="confirmSubmit()" class="modal-button-send">{{ translations['Submit'] }}</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="table-container" *ngIf="activeTabs === 1">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>{{ translations['Email'] }}</th>
+            <th>{{ translations['FirstName'] }}</th>
+            <th>{{ translations['LastName'] }}</th>
+            <th>{{ translations['Comments'] }}</th>
+            <th>{{ translations['Path'] }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let form of contactForms">
+            <td width="5%" class="table-td-center">{{ form.id }}</td>
+            <td width="10%">{{ form.email }}</td>
+            <td width="20%">{{ form.firstName }}</td>
+            <td width="20%">{{ form.lastName }}</td>
+            <td width="40%">{{ form.comments }}</td>
+            <td width="5%" class="table-td-center">
+              <a *ngIf="form.attachmentPath" [href]="form.attachmentPath" target="_blank" class="view-file-button"
+                title="Ver archivo">
+                <span class="material-symbols-outlined">visibility</span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+</div>

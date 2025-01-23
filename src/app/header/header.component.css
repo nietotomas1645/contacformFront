@@ -1,0 +1,15 @@
+  
+  .header-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #000000fb;
+    color: rgb(255, 255, 255);
+    padding: 0px 30px;
+  }
+  
+  header label {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
